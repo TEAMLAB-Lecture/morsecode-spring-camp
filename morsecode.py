@@ -184,9 +184,9 @@ def decoding_character(morse_character):
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     morse_code_dict = get_morse_code_dict()
     result = None
-    for k, v in morse_code_dict:
-        if morse_character == k:
-            result = k.upper()
+    for k, v in morse_code_dict.items():
+        if morse_character == v:
+            result = k
             break
     return result
     # ==================================
@@ -240,8 +240,14 @@ def decoding_sentence(morse_sentence):
     """
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
-    result = None
-
+    morse_word_list = morse_sentence.split("  ")
+    dec_word_list = collections.deque()
+    for word in morse_word_list:
+        tmp = []
+        for c in word.split():
+            tmp.append(decoding_character(c))
+        dec_word_list.append("".join(tmp))
+    result = " ".join(dec_word_list)
     return result
     # ==================================
 
