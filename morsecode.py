@@ -1,5 +1,6 @@
 # -*- coding: utf8 -*-
 import re
+import collections
 
 # Help Function - 수정하지 말 것
 def get_morse_code_dict():
@@ -215,7 +216,7 @@ def encoding_character(english_character):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     morse_code_dict = get_morse_code_dict()
-    result = morse_code_dict[english_character]
+    result = morse_code_dict[english_character.upper()]
     return result
     # ==================================
 
@@ -265,8 +266,14 @@ def encoding_sentence(english_sentence):
     """
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
-    result = None
-
+    cleaned_word_list = get_cleaned_english_sentence(english_sentence).split()
+    encoded_word_list = collections.deque()
+    for word in cleaned_word_list:
+        tmp = collections.deque()
+        for c in word:
+            tmp.append(encoding_character(c))
+        encoded_word_list.append(" ".join(tmp))
+    result = "  ".join(encoded_word_list)
     return result
     # ==================================
 
