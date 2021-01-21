@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-
+import re
 
 # Help Function - 수정하지 말 것
 def get_morse_code_dict():
@@ -84,8 +84,13 @@ def is_validated_english_sentence(user_input):
     """
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
-    result = None
-
+    result = True
+    if re.search("[0-9]+", user_input) is not None:
+        result = False
+    elif re.search(r"[^a-zA-Z|\s|\.|,|\?|!]", user_input) is not None:
+        result = False
+    elif user_input == "" or re.fullmatch(r"[\s|\.|,|\?|!]+", user_input) is not None:
+        result = False
     return result
     # ==================================
 
@@ -172,7 +177,10 @@ def decoding_character(morse_character):
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     morse_code_dict = get_morse_code_dict()
     result = None
-
+    for k, v in morse_code_dict:
+        if morse_character == k:
+            result = k.upper()
+            break
     return result
     # ==================================
 
@@ -201,8 +209,7 @@ def encoding_character(english_character):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     morse_code_dict = get_morse_code_dict()
-    result = None
-
+    result = morse_code_dict[english_character]
     return result
     # ==================================
 
